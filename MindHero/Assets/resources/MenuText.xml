@@ -1,7 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-
 <localeData>
-  <english>
+  <EnGB>
     <infectionData>
       <eyes>
         <warning_0>The eye infection is under control for now.</warning_0>
@@ -24,7 +22,7 @@
         <warning_75>Nose reached 75% infection!</warning_75>
         <warning_100>Brain blobs can barely walk!</warning_100>
       </nose>
-      <messages>  <!--    Some examples of custom messages.   -->
+      <messages>
         <EYE_INFECT_1>Brian suddenly got pink eye. Gross.</EYE_INFECT_1>
         <MOUTH_INFECT_1>Brian started to feel ill.</MOUTH_INFECT_1>
         <NOSE_INFECT_1>Brian suddenly came down with a flu.</NOSE_INFECT_1>
@@ -92,5 +90,5 @@
         </speed3>
       </egypt>
     </menuScreenLevelData>
-  </english>
+  </EnGB>
 </localeData>
