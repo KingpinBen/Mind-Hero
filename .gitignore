@@ -118,3 +118,6 @@ build
 *.png
 *.tga
 *.jpeg
+*.mp3
+*.TTF
+*.sav

@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{4CB37F3A-9377-B160-D912-8EDDAC691182}</ProjectGuid>
+	<ProjectGuid>{C154FDD1-12C3-5750-0EE2-AC593D271F78}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -54,7 +54,6 @@
      <Compile Include="Assets\scripts\gui\BlockTextMover.cs" />
      <Compile Include="Assets\scripts\gui\CameraBorder.cs" />
      <Compile Include="Assets\scripts\gui\ChatBox.cs" />
-     <Compile Include="Assets\scripts\gui\GameStrings.cs" />
      <Compile Include="Assets\scripts\gui\MenuBlockFader.cs" />
      <Compile Include="Assets\scripts\gui\MenuBlockManager.cs" />
      <Compile Include="Assets\scripts\gui\MenuLevelSelectGui.cs" />
@@ -66,6 +65,7 @@
      <Compile Include="Assets\scripts\gui\menu\MenuObjectChangeLevel.cs" />
      <Compile Include="Assets\scripts\gui\menu\MenuObjectSelectable.cs" />
      <Compile Include="Assets\scripts\gui\menu\MenuObjectsHandler.cs" />
+     <Compile Include="Assets\scripts\gui\xml\XmlHandler.cs" />
      <Compile Include="Assets\scripts\head\GameStateScript.cs" />
      <Compile Include="Assets\scripts\head\HeadScript.cs" />
      <Compile Include="Assets\scripts\head\ParticleRemoverScript.cs" />
@@ -89,6 +89,7 @@
      <Compile Include="Assets\scripts\head\workers\tasks\WorkerWaypoint.cs" />
      <Compile Include="Assets\scripts\head\workers\tasks\Workstation.cs" />
      <Compile Include="Assets\scripts\particles\WorkerResetScript.cs" />
+     <Compile Include="Assets\scripts\system\SaveManager.cs" />
      <Compile Include="Assets\scripts\world\FloatingTextScript.cs" />
      <Compile Include="Assets\scripts\world\FollowerCrowdScript.cs" />
      <Compile Include="Assets\scripts\world\GroundGizmo.cs" />
