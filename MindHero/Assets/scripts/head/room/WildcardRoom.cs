@@ -38,16 +38,12 @@ public class WildcardRoom : Room
                                                                "infectionData",
                                                                lowerRoomName,
                                                            } );
-        _warningStrings[0] =
-            xmlNode[0].contents;
-        _warningStrings[1] =
-            xmlNode[1].contents;
-        _warningStrings[2] =
-            xmlNode[2].contents;
-        _warningStrings[3] =
-            xmlNode[3].contents;
-        _warningStrings[4] =
-            xmlNode[4].contents;
+
+        _warningStrings[0] = xmlNode[0].contents;   //  0 warning
+        _warningStrings[1] = xmlNode[1].contents;   //  25 warning
+        _warningStrings[2] = xmlNode[2].contents;   //  50 warning
+        _warningStrings[3] = xmlNode[3].contents;   //  75 warning
+        _warningStrings[4] = xmlNode[4].contents;   //  100 warning
     }
 
 	protected virtual void Update ()
