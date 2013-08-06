@@ -33,16 +33,21 @@ public class WildcardRoom : Room
         base.Start();
 
         var lowerRoomName = roomType.ToString().ToLower();
-        _warningStrings[0] = 
-            GameStrings.GetNodeString("infectionData/" + lowerRoomName + "/warning_0");
+        var xmlNode = XmlHandler.FindTagWithParentTag( new[]
+                                                           {
+                                                               "infectionData",
+                                                               lowerRoomName,
+                                                           } );
+        _warningStrings[0] =
+            xmlNode[0].contents;
         _warningStrings[1] =
-            GameStrings.GetNodeString("infectionData/" + lowerRoomName + "/warning_25");
+            xmlNode[1].contents;
         _warningStrings[2] =
-            GameStrings.GetNodeString("infectionData/" + lowerRoomName + "/warning_50");
+            xmlNode[2].contents;
         _warningStrings[3] =
-            GameStrings.GetNodeString("infectionData/" + lowerRoomName + "/warning_75");
+            xmlNode[3].contents;
         _warningStrings[4] =
-            GameStrings.GetNodeString("infectionData/" + lowerRoomName + "/warning_100");
+            xmlNode[4].contents;
     }
 
 	protected virtual void Update ()

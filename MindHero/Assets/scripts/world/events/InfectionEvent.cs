@@ -25,7 +25,7 @@ public class InfectionEvent : EventfulObject
     {
         if (!string.IsNullOrEmpty(triggerText))
         {
-            var triggerTextTest = GameStrings.GetNodeString("infectionData/messages/" + triggerText);
+            var triggerTextTest = XmlHandler.FindNodeWithTagName(triggerText).contents;
             
             if (triggerTextTest != "ERROR")
                 triggerText = triggerTextTest;

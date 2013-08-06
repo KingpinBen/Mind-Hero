@@ -10,7 +10,7 @@ public class CameraBorder : MonoBehaviour
 
     void Awake()
     {
-        GameStrings.Load();
+        XmlHandler.locale = XmlHandler.Locale.EnGB;
     }
 
     private void Start()

@@ -3,7 +3,7 @@ using System.Collections;
 
 public class MenuObjectChangeLevel : MenuObjectSelectable
 {
-    public string levelName;
+    public int sceneId;
     public LevelType levelType;
     public LevelDifficulty speed = LevelDifficulty.Walk;
 
@@ -13,24 +13,28 @@ public class MenuObjectChangeLevel : MenuObjectSelectable
     {
         var lType = levelType.ToString().ToLower();
 
-        _data.sceneName = levelName;
-        _data.title = GameStrings.GetNodeString("menuScreenLevelData/" + lType
-                + "/speed" + ((int)speed).ToString() + "/title");
+        _data.sceneId = sceneId;
 
-        _data.description = GameStrings.GetNodeString("menuScreenLevelData/" + lType
-                + "/speed" + ((int)speed).ToString() + "/desc");
+        XmlNode node = XmlHandler.FindTagWithParentTag( new[]
+                                                            {
+                                                                "menuScreenLevelData",
+                                                                lType.ToString(),
+                                                                "speed" + ( ( int ) speed ).ToString()
+                                                            } );
+        _data.title = node[0].contents;
+        _data.description = node[1].contents;
     }
 
     protected override void Update()
     {
         base.Update();
 
-        if (_mouseOvered)
-            if (Input.GetMouseButtonDown(0))
-                _handler.gui.NewMenuObjectSelected(this);
+        if ( _mouseOvered )
+            if ( Input.GetMouseButtonDown( 0 ) )
+                _handler.gui.NewMenuObjectSelected( this );
     }
 
-    protected override void ActivateMenuObject(MenuObjectsHandler toOpen)
+    protected override void ActivateMenuObject( MenuObjectsHandler toOpen )
     {
         //  Overriding so we don't do anything on this call.
     }
