@@ -1,24 +1,22 @@
 using UnityEngine;
 using System.Collections;
 
-[RequireComponent(typeof (CharacterController))]
-[RequireComponent(typeof (Animator))]
-[RequireComponent(typeof (Rigidbody))]
+[RequireComponent( typeof ( CharacterController ) )]
+[RequireComponent( typeof ( Animator ) )]
+[RequireComponent( typeof ( Rigidbody ) )]
+[RequireComponent( typeof ( HashIDs ) )]
 public class Character : MonoBehaviour
 {
     protected float _targetMovementSpeed;
     protected Animator _animator;
     protected CharacterController _characterController;
+    protected HashIDs _hashes;
 
-    protected virtual void Start()
+    protected virtual void Awake()
     {
-        _animator = GetComponent<Animator>();
-        _characterController = GetComponent<CharacterController>();
-    }
-
-    protected virtual void Update()
-    {
-
+        _animator = GetComponent< Animator >();
+        _characterController = GetComponent< CharacterController >();
+        _hashes = GetComponent< HashIDs >();
     }
 
     protected bool IsGrounded()

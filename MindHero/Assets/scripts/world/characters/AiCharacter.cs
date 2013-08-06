@@ -13,14 +13,12 @@ public class AiCharacter : Character
     private float _movingSpeed;
     private AiCharacterStatus _characterStatus = AiCharacterStatus.Idle;
 
-    protected override void Start()
+    protected void Start()
     {
         _crowdScript = GameObject.FindWithTag("MainCamera").GetComponent<FollowerCrowdScript>();
-
-        base.Start();
     }
 
-    protected override void Update()
+    protected void Update()
     {
         switch (_characterStatus)
         {
@@ -42,7 +40,7 @@ public class AiCharacter : Character
 
                     var speed = _crowdScript.followTarget.GetMovementSpeed()*dir.normalized.x;
 
-                    _animator.SetFloat("Speed", speed);
+                    _animator.SetFloat(_hashes.speed, speed);
                 }
                 break;
             case AiCharacterStatus.Retreating:
@@ -58,12 +56,12 @@ public class AiCharacter : Character
         _crowdScript.AddFollower(wasSuccessful, this);
 
         if (wasSuccessful)
-            _animator.SetInteger("Reaction", (int)passReaction.animation);
+            _animator.SetInteger(_hashes.reaction, (int)passReaction.animation);
         else
-            _animator.SetInteger("Reaction", (int)failReaction.animation);
+            _animator.SetInteger(_hashes.reaction, (int)failReaction.animation);
 
 
-        _animator.SetBool("DoReaction", true);
+        _animator.SetBool(_hashes.doReaction, true);
         StartCoroutine(StopReacting());
        
     }
@@ -78,7 +76,7 @@ public class AiCharacter : Character
     {
         yield return new WaitForSeconds(.5f);
 
-        _animator.SetBool("DoReaction", false);
+        _animator.SetBool(_hashes.doReaction, false);
     }
 	
     /// <summary>
@@ -87,7 +85,7 @@ public class AiCharacter : Character
     public void ForceFailure()
     {
         _characterStatus = AiCharacterStatus.Retreating;
-        _animator.SetFloat("Speed", _crowdScript.followTarget.GetMovementSpeed());
+        _animator.SetFloat(_hashes.speed, _crowdScript.followTarget.GetMovementSpeed());
 
         //  May want to force some sort of reaction.
     }

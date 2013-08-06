@@ -24,16 +24,18 @@ public class Worker : GrabObject
     private float _horizontalMovement;
     private WorkerTask _task;
     private WorkerStatus _status = WorkerStatus.Idle;
+    private HashIDs _hashes;
 
     private const float GRAVITY = 15.0f;
 
-    protected override void Start()
+    protected void Awake()
     {
-        _animator = GetComponent<Animator>();
-        _controller = GetComponent<CharacterController>();
+        _hashes = GetComponent< HashIDs >();
+        _animator = GetComponent< Animator >();
+        _controller = GetComponent< CharacterController >();
     }
 
-    protected override void Update()
+    protected void Update()
     {
         var grounded = _controller.isGrounded;
 
@@ -114,7 +116,7 @@ public class Worker : GrabObject
 	            transform.rotation = Quaternion.Euler(0, -90, 0);
 	        }
 	
-	        _animator.SetBool("MovingToTarget", true);
+	        _animator.SetInteger(_hashes.reaction, 1);
 		}
 		else
 		{
@@ -153,7 +155,7 @@ public class Worker : GrabObject
     {
         base.PickUp();
 
-        _animator.SetBool("Grabbed", true);
+        _animator.SetInteger(_hashes.reaction, 2);
         _controller.Move(Vector3.zero);
         transform.rotation = Quaternion.identity;
 
@@ -165,7 +167,7 @@ public class Worker : GrabObject
     {
         base.Drop(); // drop da.. base? OHYEEAH
 
-        _animator.SetBool("Grabbed", false);
+        _animator.SetInteger(_hashes.reaction, 0);
         _verticalMovement = 0.0f;
     }
 
@@ -195,6 +197,6 @@ public class Worker : GrabObject
         _targetReached = true;
         _horizontalMovement = 0.0f;
         transform.rotation = Quaternion.identity;
-        _animator.SetBool("MovingToTarget", false);
+        _animator.SetInteger(_hashes.reaction, 0);
     }
 }
