@@ -1,7 +1,4 @@
-using System;
 using UnityEngine;
-using System.Collections;
-using System.IO;
 using System.Collections.Generic;
 
 public static class XmlHandler
@@ -14,34 +11,27 @@ public static class XmlHandler
         }
         set
         {
-            if (value == _locale)
-                _loaded = false;
-
-            _locale = value;
-            Load();
+            if (value != _locale)
+            {
+                _locale = value;
+                Load();
+            }
         }
     }
 
-    private static Locale _locale;
-
+    private static Locale _locale = Locale.None;
     private static XmlNode _headNode;
-    private static bool _loaded = false;
     private static string _xmlText = string.Empty;
 
     private const string LOCALE_FILE_NAME = "MenuText";
 
     private static void Load()
     {
-        if (_loaded)
-            return;
-
         var asset = Resources.Load( LOCALE_FILE_NAME ) as TextAsset;
         _xmlText = asset.text;
 
         ReadContents();
         _xmlText = null;
-
-        _loaded = true;
     }
 
     private static void ReadContents()
@@ -50,6 +40,7 @@ public static class XmlHandler
         var currentWorkingPosition = 0;
         var tagName = "";
         var openingTag = false;
+        var foundFirstTag = false;
 
         while(true)
         {
@@ -82,7 +73,9 @@ public static class XmlHandler
             {
                 openingTag = false;
                 tagName = tagName.Remove(0, 1); // remove the slash
-                currentWorkNode = currentWorkNode.parentNode;
+
+                if (currentWorkNode)
+                    currentWorkNode = currentWorkNode.parentNode;
             }
             else
             {
@@ -90,9 +83,16 @@ public static class XmlHandler
 
                 if (!currentWorkNode)
                 {
-                    currentWorkNode = new XmlNode(null);
-                    _headNode = currentWorkNode;
-                    currentWorkNode.tagName = tagName;
+                    if (foundFirstTag)
+                    {
+                        currentWorkNode = new XmlNode(null);
+                        _headNode = currentWorkNode;
+                        currentWorkNode.tagName = tagName;
+                    }
+                    else
+                    {
+                        foundFirstTag = true;
+                    }
                 }
                 else
                 {
@@ -109,8 +109,11 @@ public static class XmlHandler
                     return;
                 }
 
-                var content = _xmlText.Substring(currentWorkingPosition + 1, startOfCloseTag - currentWorkingPosition - 1);
-                currentWorkNode.contents = content.Trim();
+                if (currentWorkNode)
+                {
+                    var content = _xmlText.Substring(currentWorkingPosition + 1, startOfCloseTag - currentWorkingPosition - 1);
+                    currentWorkNode.contents = content.Trim();
+                }
             }
         }
     }
@@ -138,7 +141,7 @@ public static class XmlHandler
         if (!_headNode)
             return null;
 
-        return SearchNodes( _headNode, tagName );
+        return SearchNodes( _headNode, tagName, true );
     }
 
     /// <summary>
@@ -149,15 +152,12 @@ public static class XmlHandler
     public static XmlNode FindTagWithParentTag(string[] tags)
     {
         var nodes = new XmlNode[tags.Length];
-        var currentIndex = 0;
-        nodes[currentIndex] = FindNodeWithTagName( tags[currentIndex++] );
-
-        if (!nodes[0])
-            return null;
+        var currentIndex = 1;
+        nodes[0] = _headNode;
 
         for(; currentIndex < tags.Length; currentIndex++)
         {
-            var result = SearchNodes( nodes[currentIndex - 1], tags[currentIndex] );
+            var result = SearchNodes( nodes[currentIndex - 1], tags[currentIndex], true );
             if ( result )
                 nodes[currentIndex] = result;
             else
@@ -168,7 +168,28 @@ public static class XmlHandler
         return nodes[tags.Length - 1];
     }
 
-    private static XmlNode SearchNodes(XmlNode node, string tag)
+    /// <summary>
+    /// Pass in the path and get the final node. Don't include header.
+    /// This just skips checking unnecessary child nodes.
+    /// </summary>
+    /// <param name="tags"></param>
+    /// <returns></returns>
+    public static XmlNode FindNodeWithExactTagsPath(string[] tags)
+    {
+        var pathlength = tags.Length;
+        var currentNode = _headNode;
+
+        for(var i = 0; i < pathlength; i++)
+        {
+            currentNode = SearchNodes( currentNode, tags[i], false );
+            if (currentNode == null)
+                return null;
+        }
+
+        return currentNode;
+    }
+
+    private static XmlNode SearchNodes(XmlNode node, string tag, bool searchChildren)
     {
         if (node.tagName == tag)
             return node;
@@ -181,7 +202,10 @@ public static class XmlHandler
             if (node[i].tagName == tag)
                 return node[i];
 
-            var tryValue = SearchNodes(node[i], tag);
+            if (!searchChildren)
+                continue;
+
+            var tryValue = SearchNodes(node[i], tag, true);
 
             if (tryValue)
                 return tryValue;
@@ -192,6 +216,7 @@ public static class XmlHandler
 
     public enum Locale
     {
+        None = -1,
         EnGB
     }
 }
@@ -214,7 +239,7 @@ public class XmlNode
         get
         {
             if (index < 0 || index >= _childNodes.Count)
-                throw new Exception("Index was out of bounds.");
+                Debug.LogException(new UnityException("Index was out of bounds."));
                 
             return _childNodes[index];
         }
