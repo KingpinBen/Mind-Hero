@@ -9,13 +9,17 @@ public class CameraStealEvent : EventfulObject
     private WorldCameraScript _worldCamera;
     private Transform _oldTarget;
 
-	void Start ()
-	{
-        if (!newCameraTarget)
-            Debug.Log("[" + GetType() + "]: " + name + " doesn't have a target to switch to when triggered!");
+    private void Start()
+    {
+        if ( !newCameraTarget )
+        {
+            Debug.Log( "[" + GetType() + "]: " + name + " doesn't have a target to switch to when triggered!" );
+            gameObject.SetActive( false );
+            return;
+        }
 
-	    _worldCamera = GameObject.FindWithTag("MainCamera").GetComponent<WorldCameraScript>();
-	}
+        _worldCamera = GameObject.FindWithTag( "MainCamera" ).GetComponent< WorldCameraScript >();
+    }
 
     /// <summary>
     /// Will toggle the cameras target between the newCameraTarget 
@@ -29,11 +33,12 @@ public class CameraStealEvent : EventfulObject
 
     public override void FireObject()
     {
-        if (!newCameraTarget) return;
+        if ( !newCameraTarget )
+            return;
 
         var currentTarget = _worldCamera.cameraTarget;
-       
-        if (currentTarget == newCameraTarget)
+
+        if ( currentTarget == newCameraTarget )
             _worldCamera.cameraTarget = _oldTarget;
         else
         {
