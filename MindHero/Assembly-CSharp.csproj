@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\scripts\ColliderGizmoDraw.cs" />
+     <Compile Include="Assets\scripts\HashIDs.cs" />
      <Compile Include="Assets\scripts\blocks\BarBlock.cs" />
      <Compile Include="Assets\scripts\blocks\BarManager.cs" />
      <Compile Include="Assets\scripts\blocks\BlockChartGlyphs.cs" />
