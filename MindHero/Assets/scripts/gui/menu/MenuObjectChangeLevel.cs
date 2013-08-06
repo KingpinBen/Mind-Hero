@@ -15,7 +15,7 @@ public class MenuObjectChangeLevel : MenuObjectSelectable
 
         _data.sceneId = sceneId;
 
-        XmlNode node = XmlHandler.FindTagWithParentTag( new[]
+        var node = XmlHandler.FindTagWithParentTag( new[]
                                                             {
                                                                 "menuScreenLevelData",
                                                                 lType.ToString(),
