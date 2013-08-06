@@ -62,7 +62,7 @@ public class MenuDifficultyGui : MonoBehaviour
         //  We'll exit out if we don't have any data loaded as nothing below 
         //  should work.
         //  ***************************************************************
-        if (string.IsNullOrEmpty(_levelData.sceneName))
+        if (_levelData.sceneId == 0)
             return;
 
         //  ******************************
@@ -82,11 +82,11 @@ public class MenuDifficultyGui : MonoBehaviour
         //  ******************************
         GUILayout.BeginHorizontal(skin.customStyles[2]);
         GUILayout.Label("Previous Best Follower Total", skin.customStyles[4]);
-        GUILayout.Label("0", skin.customStyles[4]);
+        GUILayout.Label(SaveManager.instance[_levelData.sceneId].ToString(), skin.customStyles[4]);
         GUILayout.EndHorizontal();
 
         if (GUILayout.Button("Play")) 
-            Application.LoadLevel(_levelData.sceneName);
+            Application.LoadLevel(_levelData.sceneId);
 
         GUILayout.EndVertical();
         GUILayout.EndArea();
