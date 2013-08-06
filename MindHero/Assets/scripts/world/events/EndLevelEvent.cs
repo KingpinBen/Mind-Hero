@@ -9,26 +9,27 @@ public class EndLevelEvent : EventfulObject
 
     private FollowerCrowdScript _followerScript;
 
-	void Start ()
-	{
-	    _followerScript = GameObject.FindWithTag("MainCamera").GetComponent<FollowerCrowdScript>();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    private void Start()
+    {
+        _followerScript = GameObject.FindWithTag( "MainCamera" ).GetComponent< FollowerCrowdScript >();
+    }
+
+    // Update is called once per frame
+    private void Update()
+    {
+
+    }
 
     private IEnumerator ChangeLevel()
     {
-        yield return new WaitForSeconds(delayBeforeFire);
+        yield return new WaitForSeconds( delayBeforeFire );
         FireObject();
     }
 
     public override void ToggleObject()
     {
-        if (delayBeforeFire > 0)
-            StartCoroutine(ChangeLevel());
+        if ( delayBeforeFire > 0 )
+            StartCoroutine( ChangeLevel() );
         else
             FireObject();
     }
@@ -46,9 +47,10 @@ public class EndLevelEvent : EventfulObject
         _eventActive = true;
     }
 
-    void OnGUI()
+    private void OnGUI()
     {
-        if (_eventActive == false) return;
+        if ( _eventActive == false )
+            return;
 
         var scores = _followerScript.GetFollowerScores();
 
@@ -57,18 +59,20 @@ public class EndLevelEvent : EventfulObject
         GUI.skin = scoreSkin;
         GUI.depth = -1;
 
-        GUILayout.BeginArea(new Rect(0f,0f,500f, 300f), scoreSkin.customStyles[0]);
-        GUILayout.Label("Score");
+        GUILayout.BeginArea( new Rect( 0f, 0f, 500f, 300f ), scoreSkin.customStyles[0] );
+        GUILayout.Label( "Score" );
 
         GUILayout.BeginHorizontal();
-        GUILayout.BeginVertical(scoreSkin.customStyles[1]);
-        GUILayout.Label("Followers Gained: " + scores.successfulCharacters, scoreSkin.customStyles[1]);
-        GUILayout.Label("Followers Missed: " + scores.failedCharacters, scoreSkin.customStyles[1]);
+        GUILayout.BeginVertical( scoreSkin.customStyles[1] );
+        GUILayout.FlexibleSpace();
+        GUILayout.Label( "Followers Gained: " + scores.successfulCharacters, scoreSkin.customStyles[1] );
+        GUILayout.Label( "Potentials Missed: " + scores.failedCharacters, scoreSkin.customStyles[1] );
+        GUILayout.Label("Followers Lost: " + scores.failedCharacters, scoreSkin.customStyles[1]);
         GUILayout.EndVertical();
 
-        GUILayout.BeginVertical(scoreSkin.customStyles[1]);
-        GUILayout.Label("Followers Gained: " + scores.successfulCharacters, scoreSkin.customStyles[1]);
-        GUILayout.Label("Followers Missed: " + scores.failedCharacters, scoreSkin.customStyles[1]);
+        GUILayout.BeginVertical( scoreSkin.customStyles[1] );
+        GUILayout.Label( "Followers Gained: " + scores.successfulCharacters, scoreSkin.customStyles[1] );
+        GUILayout.Label( "Followers Missed: " + scores.failedCharacters, scoreSkin.customStyles[1] );
         GUILayout.EndVertical();
         GUILayout.EndHorizontal();
 
@@ -78,21 +82,21 @@ public class EndLevelEvent : EventfulObject
 
         GUILayout.FlexibleSpace();
 
-        if (GUILayout.Button("Restart Level", scoreSkin.customStyles[1])) 
-            Application.LoadLevel(Application.loadedLevelName);
+        if ( GUILayout.Button( "Restart Level", scoreSkin.customStyles[1] ) )
+            Application.LoadLevel( Application.loadedLevelName );
 
         /*  
          * TODO: Find out the actual passing conditions for the levels
          * as the player shouldn't be able to continue if it fails 
          */
-        if (scores.successfulCharacters - scores.lostCharacters > scores.failedCharacters)
+        if ( scores.successfulCharacters - scores.lostCharacters > scores.failedCharacters )
         {
-            if (GUILayout.Button("Continue..", scoreSkin.customStyles[1]))
-                Application.LoadLevel(nextLevelName);
+            if ( GUILayout.Button( "Continue..", scoreSkin.customStyles[1] ) )
+                Application.LoadLevel( nextLevelName );
         }
-        
-        if (GUILayout.Button("Back to Menu", scoreSkin.customStyles[1]))
-            Application.LoadLevel(0);
+
+        if ( GUILayout.Button( "Back to Menu", scoreSkin.customStyles[1] ) )
+            Application.LoadLevel( 0 );
 
         GUILayout.EndHorizontal();
 
