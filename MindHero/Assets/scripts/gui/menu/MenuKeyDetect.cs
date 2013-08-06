@@ -7,7 +7,12 @@ public class MenuKeyDetect : MonoBehaviour
 
     void Awake()
     {
-        GameStrings.Load();
+        XmlHandler.locale = XmlHandler.Locale.EnGB;
+        SaveManager.instance.Load();
+    }
+
+    void Start()
+    {
     }
 
     void OnGUI()
