@@ -9,7 +9,7 @@ public class SaveManager
 	public static SaveManager instance = new SaveManager();
 	
 	private readonly Dictionary<int, LevelSavedData> _saveData = new Dictionary<int, LevelSavedData>();
-	
+
 	private const string DIRECTORY = "./Saves/";
 	private const string FILE_NAME = "Save01";
 	
@@ -37,7 +37,8 @@ public class SaveManager
 		if (File.Exists(path + ".sav")) 
 		{
 			var reader = new BinaryReader(File.Open(path + ".sav", FileMode.Open));
-			
+		    XmlHandler.locale = ( XmlHandler.Locale ) reader.ReadInt16();
+
 			for(var i = 0; i < Application.levelCount; i++)
 			{
 				var data = new LevelSavedData
@@ -66,6 +67,8 @@ public class SaveManager
 		
 		try
 		{
+            writer.Write((short)XmlHandler.locale);
+
 			for(var i = 0; i < Application.levelCount; i++)
 			{
 				writer.Write(this[i]);	
