@@ -6,6 +6,14 @@ public class EventfulObject : MonoBehaviour
 
     protected bool _eventActive;
 
+    public bool isEventActive
+    {
+        get
+        {
+            return _eventActive;
+        }
+    }
+
     public virtual void StartObject()
     {
         _eventActive = true;
