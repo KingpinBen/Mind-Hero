@@ -29,7 +29,7 @@ public static class XmlHandler
     {
         var asset = Resources.Load( LOCALE_FILE_NAME ) as TextAsset;
         _xmlText = asset.text;
-
+        
         ReadContents();
         _xmlText = null;
     }

@@ -34,19 +34,19 @@
           <title>A Walk in the Park</title>
           <intro>Brian was always a bit of a workaholic. One day at the doctors for a routine checkup, his doctor advised him to exercise more. Brian was procured some much needed time off, today he was decided to go out and enjoy the scenery of the countryside.</intro>
           <goodOutro>Brian did well that day. Good job Brian.</goodOutro>
-          <badOutro>Brian felt as though he could do much better if he were to try again.</badOutro>
+          <badOutro>You've saved the herd, the ranch, and your families livelihood! The farm hands cheer as you lead the cattle back to their corral, and soon their families come to meet you. Now to get inside - You've earned some time off to relax before the real days work begins, and after their ordeal you think the cows probably need some too.</badOutro>
         </speed1>
         <speed2>
           <title>Out For a Jog</title>
           <intro>With your new found energy you decide to start jogging while gathering more followers</intro>
           <goodOutro>Brian did well that day. Good job Brian.</goodOutro>
-          <badOutro>Brian felt as though he could do much better if he were to try again.</badOutro>
+          <badOutro>You've saved the herd, the ranch, and your families livelihood! The farm hands cheer as you lead the cattle back to their corral, and soon their families come to meet you. Now to get inside - You've earned some time off to relax before the real days work begins, and after their ordeal you think the cows probably need some too.</badOutro>
         </speed2>
         <speed3>
           <title>Revenge of the Grizzly</title>
           <intro>A huge crazy bear felt threatened by Brian's presence and charges at our hero. You must now run for your life saving both Brian and the nice locals still around the area!</intro>
           <goodOutro>Brian did well that day. Good job Brian.</goodOutro>
-          <badOutro>Brian felt as though he could do much better if he were to try again.</badOutro>
+          <badOutro>You've saved the herd, the ranch, and your families livelihood! The farm hands cheer as you lead the cattle back to their corral, and soon their families come to meet you. Now to get inside - You've earned some time off to relax before the real days work begins, and after their ordeal you think the cows probably need some too.</badOutro>
         </speed3>
       </village>
       <western>
@@ -54,19 +54,19 @@
           <title>Farm Hands</title>
           <intro>You've got the deed to an old farmhouse outside of town but it's a bit of a fixer upper, so you've come by to pick up some local help. Take a stroll through Town and find yourself some prospective farm hands - you're sure there'll be someone here to help get things up and running</intro>
           <goodOutro>Brian did well that day. Good job Brian.</goodOutro>
-          <badOutro>Brian felt as though he could do much better if he were to try again.</badOutro>
+          <badOutro>You've saved the herd, the ranch, and your families livelihood! The farm hands cheer as you lead the cattle back to their corral, and soon their families come to meet you. Now to get inside - You've earned some time off to relax before the real days work begins, and after their ordeal you think the cows probably need some too.</badOutro>
         </speed1>
         <speed2>
           <title>Round 'em Up</title>
           <intro>You've just had word from the local sheriff: a gang of rustlers made off with fifty of your finest cattle in the night! Luckily his boys managed to drive them off, but now your herd is spread out across the land. Get on your horse and round 'em up if you want to keep the ranch in business!</intro>
           <goodOutro>Brian did well that day. Good job Brian.</goodOutro>
-          <badOutro>Brian felt as though he could do much better if he were to try again.</badOutro>
+          <badOutro>You've saved the herd, the ranch, and your families livelihood! The farm hands cheer as you lead the cattle back to their corral, and soon their families come to meet you. Now to get inside - You've earned some time off to relax before the real days work begins, and after their ordeal you think the cows probably need some too.</badOutro>
         </speed2>
         <speed3>
           <title>Stampede!</title>
           <intro>You've been well established for a good while now and this week your wife and children have been away visiting family so the ranch is fully in your hands. Things were looking fine before, but now a storm's raging overhead and filling the sky with lightning! One bolt's struck the gate to the corral and now the cattle are loose and terrified - Quick, get everyone out of the way of the stampede!</intro>
           <goodOutro>Brian did well that day. Good job Brian.</goodOutro>
-          <badOutro>Brian felt as though he could do much better if he were to try again.</badOutro>
+          <badOutro>You've saved the herd, the ranch, and your families livelihood! The farm hands cheer as you lead the cattle back to their corral, and soon their families come to meet you. Now to get inside - You've earned some time off to relax before the real days work begins, and after their ordeal you think the cows probably need some too.</badOutro>
         </speed3>
       </western>
       <medieval>
@@ -74,19 +74,19 @@
           <title>Cash King</title>
           <intro>The king has sent out a proclamation across the lands. His master of coffers has been coughing introretely and the royal vaults are wanting for coin. By royal decree you and your peasant brethren are required to provide the kingdom's funds in greater than ever supply. Unfortunately, as a bunch of freeholding farmers, you don't have any gold. Lead the people to petition the crown for reprieve.</intro>
           <goodOutro>Brian did well that day. Good job Brian.</goodOutro>
-          <badOutro>Brian felt as though he could do much better if he were to try again.</badOutro>
+          <badOutro>You've saved the herd, the ranch, and your families livelihood! The farm hands cheer as you lead the cattle back to their corral, and soon their families come to meet you. Now to get inside - You've earned some time off to relax before the real days work begins, and after their ordeal you think the cows probably need some too.</badOutro>
         </speed1>
         <speed2>
           <title>Feast for a King</title>
           <intro>Your plea successul, the King has relented, requiring instead that you feat him and his hounds, lest he bar the doors of his hall with you inside and loose them to feast upon you. Get your haste on and gather the townsfolk and their wares to the royal kitchens, and make sure not to forget the salt!</intro>
           <goodOutro>Brian did well that day. Good job Brian.</goodOutro>
-          <badOutro>Brian felt as though he could do much better if he were to try again.</badOutro>
+          <badOutro>You've saved the herd, the ranch, and your families livelihood! The farm hands cheer as you lead the cattle back to their corral, and soon their families come to meet you. Now to get inside - You've earned some time off to relax before the real days work begins, and after their ordeal you think the cows probably need some too.</badOutro>
         </speed2>
         <speed3>
           <title>Hounded</title>
           <intro>His meal seemingly satisfactory, the King honours his oath - the part about not barring the doors on the townsfolk at least - "Now flee for your lives, petty peasants!" he cries, unleashing his dogs from the throne with a depraved grin. Run fast, run far, save as many villagers as you can and don't trip - the hounds are swift, and their jaws are almost as cruel as their master.</intro>
           <goodOutro>Brian did well that day. Good job Brian.</goodOutro>
-          <badOutro>Brian felt as though he could do much better if he were to try again.</badOutro>
+          <badOutro>You've saved the herd, the ranch, and your families livelihood! The farm hands cheer as you lead the cattle back to their corral, and soon their families come to meet you. Now to get inside - You've earned some time off to relax before the real days work begins, and after their ordeal you think the cows probably need some too.</badOutro>
         </speed3>
       </medieval>
       <egypt>
@@ -94,19 +94,19 @@
           <title>Laying the Foundations</title>
           <intro>Somehow you've received the ultimate commission from the Pharaoh himself, but as ever the boss is nowhere to be found! Round up the workers and get searching for a spot, and you might even get credit for laying the greatest foundations in history!</intro>
           <goodOutro>Brian did well that day. Good job Brian.</goodOutro>
-          <badOutro>Brian felt as though he could do much better if he were to try again.</badOutro>
+          <badOutro>You've saved the herd, the ranch, and your families livelihood! The farm hands cheer as you lead the cattle back to their corral, and soon their families come to meet you. Now to get inside - You've earned some time off to relax before the real days work begins, and after their ordeal you think the cows probably need some too.</badOutro>
         </speed1>
         <speed2>
           <title>Looking Busy</title>
           <intro>Construction's underway and, sick of fulfilling his responsibilities, the master's decreed a day of rest. Unfortunately you've just had word of an imminent visitor. Not just a royal inspector, but the Pharaoh himself! Round up the workers, lash them if must, but don't let him see an empty yard!</intro>
           <goodOutro>Brian did well that day. Good job Brian.</goodOutro>
-          <badOutro>Brian felt as though he could do much better if he were to try again.</badOutro>
+          <badOutro>You've saved the herd, the ranch, and your families livelihood! The farm hands cheer as you lead the cattle back to their corral, and soon their families come to meet you. Now to get inside - You've earned some time off to relax before the real days work begins, and after their ordeal you think the cows probably need some too.</badOutro>
         </speed2>
         <speed3>
           <title>Shifting Sands</title>
           <intro>The majestic monument complete, the master foreman takes it upon himself to place the tiny golden capstone. Unfortunately as he nears the top, the sands at the base begin to shift, pouring inwards...disaster! The monument is sinking! Get away and warn the workers before it's too late!</intro>
           <goodOutro>Brian did well that day. Good job Brian.</goodOutro>
-          <badOutro>Brian felt as though he could do much better if he were to try again.</badOutro>
+          <badOutro>You've saved the herd, the ranch, and your families livelihood! The farm hands cheer as you lead the cattle back to their corral, and soon their families come to meet you. Now to get inside - You've earned some time off to relax before the real days work begins, and after their ordeal you think the cows probably need some too.</badOutro>
         </speed3>
       </egypt>
     </menuScreenLevelData>

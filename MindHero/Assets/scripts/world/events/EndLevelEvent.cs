@@ -6,23 +6,40 @@ public class EndLevelEvent : EventfulObject
     public string nextLevelName;
     public float delayBeforeFire = 0.0f;
     public GUISkin scoreSkin;
+    public LevelDifficulty difficulty = LevelDifficulty.Walk;
+    public LevelType levelType = LevelType.Egypt;
 
     private FollowerCrowdScript _followerScript;
+    private XmlNode _levelLocalNode;
+    private Matrix4x4 _guiMatrix;
+    private Texture2D _backgroundTexture;
 
-    private void Start()
+    private void Awake()
     {
         _followerScript = GameObject.FindWithTag( "MainCamera" ).GetComponent< FollowerCrowdScript >();
-    }
+        _levelLocalNode = XmlHandler.FindNodeWithExactTagsPath( new[]
+                                                                    {
+                                                                        "menuScreenLevelData",
+                                                                        levelType.ToString().ToLower(),
+                                                                        "speed" + ( ( int ) difficulty ).ToString()
+                                                                    } );
 
-    // Update is called once per frame
-    private void Update()
-    {
+        _backgroundTexture = new Texture2D( 1, 1 );
+        _backgroundTexture.SetPixel( 1, 1, Color.black );
+        _backgroundTexture.Apply();
+
+        var scale = ((Screen.width > Screen.height) ? Screen.height : Screen.width) * 0.001f;
+        _guiMatrix = Matrix4x4.TRS(
+            new Vector3((Screen.width * .5f) - ((760 * .5f) * scale),   //  760 is the fixed width of the yellow text box
+                         (Screen.height * .5f) - ((820 * .5f) * scale), 0), //  820 has no specific meaning but it's high enough to let it stretch down.
+            Quaternion.identity, new Vector3(scale, scale, 1));
 
     }
 
     private IEnumerator ChangeLevel()
     {
         yield return new WaitForSeconds( delayBeforeFire );
+
         FireObject();
     }
 
@@ -54,52 +71,93 @@ public class EndLevelEvent : EventfulObject
 
         var scores = _followerScript.GetFollowerScores();
 
-        //  TODO: Need the matrix
+        GUI.color = Color.white * .5f;
+        GUI.DrawTexture( new Rect( 0, 0, Screen.width, Screen.height ), _backgroundTexture );
 
         GUI.skin = scoreSkin;
         GUI.depth = -1;
+        GUI.matrix = _guiMatrix;
+        GUI.color = Color.white;
 
-        GUILayout.BeginArea( new Rect( 0f, 0f, 500f, 300f ), scoreSkin.customStyles[0] );
-        GUILayout.Label( "Score" );
+        #region Group
+        GUILayout.BeginVertical();
 
-        GUILayout.BeginHorizontal();
-        GUILayout.BeginVertical( scoreSkin.customStyles[1] );
+        #region Big, Top box
+        GUILayout.BeginVertical(scoreSkin.customStyles[0]);
+
+        GUILayout.Label("LEVEL COMPLETE");
+        GUILayout.Label(_levelLocalNode[3].contents, scoreSkin.customStyles[1]);
+
+        #region Basic Stats
+        GUILayout.BeginVertical();
+
+        #region Cured Infections
+        GUILayout.BeginHorizontal(); 
         GUILayout.FlexibleSpace();
-        GUILayout.Label( "Followers Gained: " + scores.successfulCharacters, scoreSkin.customStyles[1] );
-        GUILayout.Label( "Potentials Missed: " + scores.failedCharacters, scoreSkin.customStyles[1] );
-        GUILayout.Label("Followers Lost: " + scores.failedCharacters, scoreSkin.customStyles[1]);
-        GUILayout.EndVertical();
-
-        GUILayout.BeginVertical( scoreSkin.customStyles[1] );
-        GUILayout.Label( "Followers Gained: " + scores.successfulCharacters, scoreSkin.customStyles[1] );
-        GUILayout.Label( "Followers Missed: " + scores.failedCharacters, scoreSkin.customStyles[1] );
-        GUILayout.EndVertical();
+        GUILayout.Label("INFECTIONS CURED: ", scoreSkin.customStyles[2]);
+        GUILayout.Label(" " + scores.successfulCharacters, scoreSkin.customStyles[2]);
+        GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
+        #endregion
 
-        GUILayout.FlexibleSpace();
-
+        #region Followers Lost
         GUILayout.BeginHorizontal();
-
         GUILayout.FlexibleSpace();
+        GUILayout.Label("FOLLOWERS LOST: ", scoreSkin.customStyles[2]);
+        GUILayout.Label(" " + scores.failedCharacters, scoreSkin.customStyles[2]);
+        GUILayout.FlexibleSpace();
+        GUILayout.EndHorizontal();
+        #endregion
 
-        if ( GUILayout.Button( "Restart Level", scoreSkin.customStyles[1] ) )
-            Application.LoadLevel( Application.loadedLevelName );
+        #region Followers Missed
+        GUILayout.BeginHorizontal();
+        GUILayout.FlexibleSpace();
+        GUILayout.Label("FOLLOWERS MISSED: ", scoreSkin.customStyles[2]);
+        GUILayout.Label(" " + scores.lostCharacters, scoreSkin.customStyles[2]);
+        GUILayout.FlexibleSpace();
+        GUILayout.EndHorizontal();
+        #endregion
 
-        /*  
-         * TODO: Find out the actual passing conditions for the levels
-         * as the player shouldn't be able to continue if it fails 
-         */
-        if ( scores.successfulCharacters - scores.lostCharacters > scores.failedCharacters )
+        GUILayout.EndVertical();
+        #endregion
+
+        #region Final Follower Count
+        GUILayout.BeginHorizontal();
+        GUILayout.FlexibleSpace();
+        GUILayout.Label("Final Followers: ", scoreSkin.customStyles[3]);
+        GUILayout.Label(" " + scores.successfulCharacters, scoreSkin.customStyles[3]);
+        GUILayout.FlexibleSpace();
+        GUILayout.EndHorizontal();
+        #endregion
+
+        GUILayout.EndVertical();
+        #endregion
+
+        #region Buttons
+        GUILayout.BeginHorizontal();
+        if (GUILayout.Button("Replay"))
+            Application.LoadLevel(Application.loadedLevel);
+
+        if (!string.IsNullOrEmpty(nextLevelName))
         {
-            if ( GUILayout.Button( "Continue..", scoreSkin.customStyles[1] ) )
-                Application.LoadLevel( nextLevelName );
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button("Continue"))
+                Application.LoadLevel(nextLevelName);
         }
 
-        if ( GUILayout.Button( "Back to Menu", scoreSkin.customStyles[1] ) )
-            Application.LoadLevel( 0 );
+        GUILayout.FlexibleSpace();
 
+        if (GUILayout.Button("Menu"))
+            Application.LoadLevel(0);
         GUILayout.EndHorizontal();
+        #endregion
 
-        GUILayout.EndArea();
+        GUILayout.EndVertical();
+        #endregion
+    }
+
+    public Texture2D GetPixelTexture()
+    {
+        return _backgroundTexture;
     }
 }
