@@ -7,68 +7,79 @@ public class GameStateScript : MonoBehaviour
 
     private bool _paused;
     private Matrix4x4 _guiMatrix;
+    private EndLevelEvent _endLevel;
+    private Texture2D _texture;
 
-    void Start()
+    private void Start()
     {
-        var scale = Screen.height*0.003f;
+        var scale = ( ( Screen.width > Screen.height ) ? Screen.height : Screen.width ) * 0.001f;
+        var screenOffset = new Vector3( ( Screen.width * .5f ) - ( ( 520f * .5f ) * scale ),
+                                        ( Screen.height * .5f ) - ( ( 220f * .5f ) * scale ), 0 );
 
-        var screenOffset = new Vector3((Screen.width * .5f) - ((250f * .5f) * scale),
-                                    (Screen.height * .5f) - ((220f * .5f) * scale), 0);
+        _guiMatrix =
+            Matrix4x4.TRS( screenOffset, Quaternion.identity, new Vector3( scale, scale, 1 ) );
 
-        _guiMatrix = 
-            Matrix4x4.TRS(screenOffset, Quaternion.identity, new Vector3(scale, scale, 1));
+        _endLevel = GetComponent< EndLevelEvent >();
+        _texture = _endLevel.GetPixelTexture();
     }
 
-	void Update () {
-	    if (Input.GetKeyDown(KeyCode.P) || 
-            Input.GetKeyDown(KeyCode.Space) ||
-            Input.GetKeyDown(KeyCode.Escape))
-	    {
-	        ToggleState();
-	    }
-	}
-
-    void ToggleState()
+    private void Update()
     {
+        if ( Input.GetKeyDown( KeyCode.P ) ||
+             Input.GetKeyDown( KeyCode.Space ) ||
+             Input.GetKeyDown( KeyCode.Escape ) )
+        {
+            ToggleState();
+        }
+    }
+
+    private void ToggleState()
+    {
+        if ( _endLevel.isEventActive )
+            return;
+
         _paused = !_paused;
 
         Time.timeScale = _paused ? 0.0f : 1.0f;
     }
 
-    void OnGUI()
+    private void OnGUI()
     {
-        if (!_paused) return;
+        if ( !_paused )
+            return;
 
-        GUI.skin = skin;
-        GUI.matrix = _guiMatrix;
         //  Need to make sure this is on top so the other screen borders
         //  don't cause issues.
         GUI.depth = 0;
+        GUI.color = Color.white * .5f;
+        GUI.DrawTexture( new Rect( 0, 0, Screen.width, Screen.height ), _texture );
 
-        GUILayout.BeginArea(new Rect(0f, 0f, 250f, 220f), skin.customStyles[0]);
-        GUILayout.Label("Paused");
-        GUILayout.FlexibleSpace();
+        GUI.color = Color.white;
+        GUI.skin = skin;
+        GUI.matrix = _guiMatrix;
 
-        if (GUILayout.Button("Continue"))
+        GUILayout.BeginVertical( skin.customStyles[5] );
+        GUILayout.Label( "Paused", skin.customStyles[6] );
+
+        if ( GUILayout.Button( "Continue", skin.customStyles[4] ) )
             ToggleState();
 
         //  We need to remember to switch the game back to normal game
         //  speed before we change the scene.
 
-        if (GUILayout.Button("Restart"))
+        if ( GUILayout.Button( "Restart", skin.customStyles[4] ) )
         {
             ToggleState();
-            Application.LoadLevel(Application.loadedLevel);
+            Application.LoadLevel( Application.loadedLevel );
         }
-            
 
-        if (GUILayout.Button("Back to Menu"))
+
+        if ( GUILayout.Button( "Back to Menu", skin.customStyles[4] ) )
         {
             ToggleState();
-            Application.LoadLevel("MainMenu");
+            Application.LoadLevel( "MainMenu" );
         }
-            
-        GUILayout.FlexibleSpace();
-        GUILayout.EndArea();
+
+        GUILayout.EndVertical();
     }
 }
