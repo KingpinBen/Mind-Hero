@@ -53,7 +53,8 @@ public class BarPushTrigger : WorldTrigger
 
     protected override void OnTriggerEnter(Collider body)
     {
-        if (body.tag != "WorldPlayer") return;
+        if (body.tag != "WorldPlayer") 
+            return;
 
         _barManager.ReceivePush(columns, _characterData);
         GameObject.FindWithTag("MainCamera").GetComponent<FollowerCrowdScript>().CreateMessage(message);

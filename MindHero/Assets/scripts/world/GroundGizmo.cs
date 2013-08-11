@@ -11,7 +11,7 @@ public class GroundGizmo : MonoBehaviour
             col.size.y * transform.localScale.y,
             col.size.z * transform.localScale.z
             );
-        Gizmos.color = Color.white*.9f;
+        Gizmos.color = Color.green * .5f;
         Gizmos.DrawCube(transform.position + col.center, size);
     }
 }
