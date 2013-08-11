@@ -16,24 +16,27 @@ public class EndLevelEvent : EventfulObject
 
     private void Awake()
     {
-        _followerScript = GameObject.FindWithTag( "MainCamera" ).GetComponent< FollowerCrowdScript >();
-        _levelLocalNode = XmlHandler.FindNodeWithExactTagsPath( new[]
-                                                                    {
-                                                                        "menuScreenLevelData",
-                                                                        levelType.ToString().ToLower(),
-                                                                        "speed" + ( ( int ) difficulty ).ToString()
-                                                                    } );
-
+        _followerScript = Camera.mainCamera.GetComponent< FollowerCrowdScript >();
+        
         _backgroundTexture = new Texture2D( 1, 1 );
         _backgroundTexture.SetPixel( 1, 1, Color.black );
         _backgroundTexture.Apply();
 
         var scale = ((Screen.width > Screen.height) ? Screen.height : Screen.width) * 0.001f;
         _guiMatrix = Matrix4x4.TRS(
-            new Vector3((Screen.width * .5f) - ((760 * .5f) * scale),   //  760 is the fixed width of the yellow text box
+            new Vector3((Screen.width * .5f) - ((800 * .5f) * scale),   //  760 is the fixed width of the yellow text box
                          (Screen.height * .5f) - ((820 * .5f) * scale), 0), //  820 has no specific meaning but it's high enough to let it stretch down.
             Quaternion.identity, new Vector3(scale, scale, 1));
+    }
 
+    private void Start()
+    {
+        _levelLocalNode = XmlHandler.FindNodeWithExactTagsPath(new[]
+                                                                    {
+                                                                        "menuScreenLevelData",
+                                                                        levelType.ToString().ToLower(),
+                                                                        "speed" + ( ( int ) difficulty ).ToString()
+                                                                    });
     }
 
     private IEnumerator ChangeLevel()
@@ -86,6 +89,7 @@ public class EndLevelEvent : EventfulObject
         GUILayout.BeginVertical(scoreSkin.customStyles[0]);
 
         GUILayout.Label("LEVEL COMPLETE");
+        GUILayout.FlexibleSpace();
         GUILayout.Label(_levelLocalNode[3].contents, scoreSkin.customStyles[1]);
 
         #region Basic Stats
@@ -95,7 +99,7 @@ public class EndLevelEvent : EventfulObject
         GUILayout.BeginHorizontal(); 
         GUILayout.FlexibleSpace();
         GUILayout.Label("INFECTIONS CURED: ", scoreSkin.customStyles[2]);
-        GUILayout.Label(" " + scores.successfulCharacters, scoreSkin.customStyles[2]);
+        GUILayout.Label(" " + scores.infectionsCured, scoreSkin.customStyles[2]);
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
         #endregion
@@ -148,7 +152,7 @@ public class EndLevelEvent : EventfulObject
         GUILayout.FlexibleSpace();
 
         if (GUILayout.Button("Menu"))
-            Application.LoadLevel(0);
+            Application.LoadLevel("mainMenu");
         GUILayout.EndHorizontal();
         #endregion
 
