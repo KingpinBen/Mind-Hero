@@ -9,6 +9,7 @@ public class WildcardRoom : Room
     private float _roomScoreModifier;
     private bool _infectionEvent;
     private readonly string[] _warningStrings = new string[5];
+    private FollowerCrowdScript _followerCrowdScript;
 
     /// <summary>
     /// Gets the room score value between -1 and 1.
@@ -26,6 +27,11 @@ public class WildcardRoom : Room
     public float roomScore01
     {
         get { return (_roomScoreModifier*0.5f) + .5f; }
+    }
+
+    private void Awake()
+    {
+        _followerCrowdScript = Camera.mainCamera.GetComponent< FollowerCrowdScript >();
     }
 
     protected override void Start()
@@ -66,6 +72,7 @@ public class WildcardRoom : Room
             {
                 degenerationRate = 0;
                 _infectionEvent = false;
+                _followerCrowdScript.InfectionComplete();
                 roomScoreRaw = -roomScoreRaw;   //  Zero it.
             }
 	    }
