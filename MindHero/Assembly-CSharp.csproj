@@ -70,6 +70,7 @@
      <Compile Include="Assets\scripts\head\GameStateScript.cs" />
      <Compile Include="Assets\scripts\head\HeadScript.cs" />
      <Compile Include="Assets\scripts\head\ParticleRemoverScript.cs" />
+     <Compile Include="Assets\scripts\head\ScrollingSkybox.cs" />
      <Compile Include="Assets\scripts\head\features\EyeBehaviourScript.cs" />
      <Compile Include="Assets\scripts\head\features\FungalGrowthScript.cs" />
      <Compile Include="Assets\scripts\head\features\HeadJawScript.cs" />

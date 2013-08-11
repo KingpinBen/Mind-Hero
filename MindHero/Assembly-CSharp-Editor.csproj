@@ -45,9 +45,17 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Editor\AutoSave.cs" />
+     <Compile Include="Assets\Editor\BankRoomEditor.cs" />
+     <Compile Include="Assets\Editor\BarManagerEditor.cs" />
      <Compile Include="Assets\Editor\BarPushTriggerEditor.cs" />
+     <Compile Include="Assets\Editor\HashIdEditor.cs" />
+     <Compile Include="Assets\Editor\HeadScriptEditor.cs" />
      <Compile Include="Assets\Editor\InfectionEventEditor.cs" />
      <Compile Include="Assets\Editor\PlayerSpeedEditor.cs" />
+     <Compile Include="Assets\Editor\RoomBarEditor.cs" />
+     <Compile Include="Assets\Editor\RoomEditor.cs" />
+     <Compile Include="Assets\Editor\WildcardRoomEditor.cs" />
+     <Compile Include="Assets\Editor\WorkerEditor.cs" />
      <None Include="Assets\materials\shaders\Unlit-AlphaTest-Color.shader" />
      <None Include="Assets\materials\shaders\Toony-BasicOutline.shader" />
      <None Include="Assets\materials\shaders\Toony-LightedOutline.shader" />
