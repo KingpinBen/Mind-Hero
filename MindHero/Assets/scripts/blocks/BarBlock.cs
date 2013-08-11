@@ -37,23 +37,45 @@ public class BarBlock : MonoBehaviour
         transform.localPosition = newPosition;
     }
 
-    public void FinishBlock(RoomBar bar)
+    /// <summary>
+    /// The block has passed its mark and needs resetting
+    /// </summary>
+    /// <param name="bar">The bar to which it belongs</param>
+    /// <param name="quickFinish">Should the block disappear now or wait</param>
+    public void FinishBlock(RoomBar bar, bool quickFinish)
     {
-        StartCoroutine(DeactivateBlock());
-
-        if (!_bar) 
+        if (!_bar)
             _bar = bar;
 
-        if (_backupColor != Color.black) 
-            renderer.material.color = _backupColor;
+        if (quickFinish)
+            DeactivateBlock();
+        else
+            StartCoroutine(DeactivateBlockCountdown());
     }
 
-    private IEnumerator DeactivateBlock()
+    /// <summary>
+    /// Used to reset the block to be used again.
+    /// </summary>
+    private void DeactivateBlock()
     {
-        yield return new WaitForSeconds(1f);
+        if (_backupColor != Color.black)
+            renderer.material.color = _backupColor;
 
         gameObject.SetActive(false);
         transform.localPosition = Vector3.zero;
         _bar.QueueVirtualBlock(this);
     }
+
+    /// <summary>
+    /// Delay the time before the block gets reset.
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator DeactivateBlockCountdown()
+    {
+        yield return new WaitForSeconds(1f);
+
+        DeactivateBlock();
+    }
+
+    public CharacterData characterData { get; set; }
 }
