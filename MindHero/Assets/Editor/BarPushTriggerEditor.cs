@@ -6,23 +6,17 @@ using UnityEditor;
 public class BarPushTriggerEditor : Editor
 {
     public SerializedProperty columns;
-	public SerializedProperty character;
     public SerializedProperty message;
 
     void OnEnable()
     {
         columns = serializedObject.FindProperty("columns");
-		character = serializedObject.FindProperty("character");
         message = serializedObject.FindProperty("message");
     }
 
     public override void OnInspectorGUI()
     {
         var trig = serializedObject.targetObject as BarPushTrigger;
-
-        character.objectReferenceValue =
-            EditorGUILayout.ObjectField("Trigger's Character",
-                                        character.objectReferenceValue, typeof (AiCharacter), true);
 
         EditorGUILayout.Separator();
 
@@ -57,7 +51,7 @@ public class BarPushTriggerEditor : Editor
             for (uint y = 0; y < 6; y++)
             {
                 GUILayout.BeginHorizontal();
-                GUILayout.Label((RoomType)y + " Bar ", GUILayout.MaxWidth(80));
+                GUILayout.Label("   " + (RoomType)y + " Bar ", GUILayout.MaxWidth(80));
                 
                 for (var x = 0; x < trig.columns.Length; x++)
                 {
