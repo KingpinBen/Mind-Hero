@@ -18,7 +18,7 @@ public class FollowerCrowdScript : MonoBehaviour
     private SceneCharacterTracker _scores;
 
     private Matrix4x4 _guiMatrix;
-    private Rect _guiRect;
+    private readonly Rect _guiRect= new Rect(0, 0, 210, 95);
     private Rect _messageRect;
 
     private void Awake()
@@ -39,8 +39,7 @@ public class FollowerCrowdScript : MonoBehaviour
 
     void UpdateGUISettings()
     {
-        var scale = Screen.height * .001f;
-        _guiRect = new Rect(0, 0, 210, 95);
+        var scale = (Screen.width > Screen.height) ? Screen.height * 0.001f : Screen.width * 0.001f;
         var offset = new Vector3(_camera.pixelRect.x * 1.005f,
                                  (_camera.pixelRect.y - _camera.pixelHeight) * .5f, 0f);
 
@@ -66,7 +65,7 @@ public class FollowerCrowdScript : MonoBehaviour
         if (success)
         {
             if (gainedFollowerPrefab) 
-                Instantiate(gainedFollowerPrefab, character.transform.position + new Vector3(0,1, -1), Quaternion.identity);
+                Instantiate(gainedFollowerPrefab, character.transform.position + character.transform.up * 3 - transform.forward, Quaternion.identity);
 
             _listOfFollowers.Add(character);
             _headScript.jaw.CreateChatter(Random.Range(3,5));
@@ -126,5 +125,10 @@ public class FollowerCrowdScript : MonoBehaviour
     public HeadScript GetHead()
     {
         return _headScript;
+    }
+
+    public void InfectionComplete()
+    {
+        _scores.infectionsCured += 1;
     }
 }
