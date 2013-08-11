@@ -1,5 +1,7 @@
 using System;
 using UnityEngine;
+using System.Collections.Generic;
+using System.Collections;
 
 public class BarManager : MonoBehaviour
 {
@@ -10,9 +12,10 @@ public class BarManager : MonoBehaviour
 
     private float _elapsed;
     private float _pulseInterval;
-    private CharacterData _activeCharacterData;
     private WildcardRoom _eyeRoom;
     private BlockTextMover _textMesh;
+
+    private readonly List< CharacterData > _activeCharacters = new List< CharacterData >();
 
     private void Awake()
     {
@@ -31,29 +34,19 @@ public class BarManager : MonoBehaviour
         }
 
         //  Added .25f for a bit of separation between blocks.
-        _pulseInterval = (1.25f/blockSpeed); 
-    }
+        _pulseInterval = (1.25f/blockSpeed);
 
-    private void Update()
-    {
-        if (_elapsed >= _pulseInterval)
-        {
-            for (var i = 0; i < bars.Length; i++)
-                bars[i].PulseBlock();
-
-            _elapsed = 0.0f;
-        }
-
-        _elapsed += Time.deltaTime;
+        StartCoroutine( SendBlockPulse() );
     }
 
     public void ReceivePush(BlockColumnArray[] blocks, CharacterData characterData)
     {
-        if (blocks == null) throw new ArgumentNullException("blocks");
-        if (characterData == null) throw new ArgumentNullException("characterData");
-        if (_activeCharacterData != null) return;
+        if (blocks == null) 
+            throw new ArgumentNullException("blocks");
+        if (characterData == null) 
+            throw new ArgumentNullException("characterData");
 
-        _activeCharacterData = characterData;
+        _activeCharacters.Add(characterData);
 
         //  Size of the amount of columns
         var rowValues = new bool[blocks.Length];
@@ -63,22 +56,25 @@ public class BarManager : MonoBehaviour
             for (var c = 0; c < rowValues.Length; c++)
                 rowValues[c] = blocks[c].rows[r];
 
-            bars[r].AddBlocks(rowValues);
+            bars[r].AddBlocks(rowValues, characterData);
             rowValues.Initialize();
         }
     }
 
-    public void BlockCleared(bool wasCorrect)
+    public void BlockCleared(BarBlock block, bool wasCorrect)
     {
-        if (wasCorrect)
-            _activeCharacterData.correctBlocks++;
-        else
-            _activeCharacterData.missedBlocks++;
+        var data = block.characterData;
+        block.characterData = null;
 
-        var reset = _activeCharacterData.CheckComplete();
+        if (wasCorrect)
+            data.correctBlocks++;
+        else
+            data.missedBlocks++;
+
+        var reset = data.CheckComplete();
 
         if (reset)
-            _activeCharacterData = null;
+            _activeCharacters.Remove(data);
     }
 
     /// <summary>
@@ -103,5 +99,16 @@ public class BarManager : MonoBehaviour
             return;
 
         _textMesh.ShowMessage(message);
+    }
+
+    IEnumerator SendBlockPulse()
+    {
+        for(var i =0; i < bars.Length; i++)
+        {
+            bars[i].PulseBlock();
+        }
+
+        yield return new WaitForSeconds( _pulseInterval );
+        StartCoroutine( SendBlockPulse() );
     }
 }
