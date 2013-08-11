@@ -1,12 +1,16 @@
 using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(HashIDs))]
 public class AiCharacter : Character
 {
 
     public bool followPlayerOnPass;
-    public CharacterReaction passReaction = new CharacterReaction(true);
-    public CharacterReaction failReaction = new CharacterReaction(false);
+    public CharacterReaction passReaction;
+    public CharacterReaction failReaction;
     public Vector2 followingOffset;
 
     private FollowerCrowdScript _crowdScript;
@@ -28,23 +32,21 @@ public class AiCharacter : Character
             case AiCharacterStatus.Following:
                 var dir = _crowdScript.followTarget.transform.position - transform.position;
                 dir.y = 0;
-                dir.z += followingOffset.y;
-                dir.x += followingOffset.x;
+                dir.z -= followingOffset.y;
+                dir.x -= followingOffset.x;
 
-                var lookAt = Quaternion.LookRotation(dir);
-                transform.rotation = lookAt;
+                transform.rotation = Quaternion.LookRotation(dir);
 			
                 if (followPlayerOnPass)
                 {
                     _movingSpeed = Mathf.Lerp(_movingSpeed, _crowdScript.followTarget.GetMovementSpeed(), Time.deltaTime);
 
-                    var speed = _crowdScript.followTarget.GetMovementSpeed()*dir.normalized.x;
+                    var speed = Mathf.Clamp(_movingSpeed*dir.normalized.x, 0, 1);
 
                     _animator.SetFloat(_hashes.speed, speed);
                 }
                 break;
             case AiCharacterStatus.Retreating:
-                transform.rotation = Quaternion.LookRotation(new Vector3(-1, 0, 0));
                 break;
         }
     }
@@ -55,15 +57,15 @@ public class AiCharacter : Character
             AiCharacterStatus.Following : AiCharacterStatus.Retreating;
         _crowdScript.AddFollower(wasSuccessful, this);
 
-        if (wasSuccessful)
-            _animator.SetInteger(_hashes.reaction, (int)passReaction.animation);
-        else
-            _animator.SetInteger(_hashes.reaction, (int)failReaction.animation);
+        var reactionToPlay = wasSuccessful ? (int)passReaction.animation : (int)failReaction.animation;
 
+        if (reactionToPlay > 0)
+        {
+            _animator.SetInteger( _hashes.reaction, reactionToPlay );
+            _animator.SetBool(_hashes.doReaction, true);
 
-        _animator.SetBool(_hashes.doReaction, true);
-        StartCoroutine(StopReacting());
-       
+            StartCoroutine(StopReacting());
+        }      
     }
 
     void OnBecameInvisible()
@@ -90,7 +92,7 @@ public class AiCharacter : Character
         //  May want to force some sort of reaction.
     }
 
-    internal enum AiCharacterStatus
+    private enum AiCharacterStatus
     {
         Idle,
         Following,
