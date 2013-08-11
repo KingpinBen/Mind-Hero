@@ -32,10 +32,7 @@ public class RoomBar : MonoBehaviour
     {
         _blockScript = blockPrefab.GetComponent<BarBlock>();
         _mat = new Material(blockMaterial);
-    }
 
-    private void Start()
-    {
         int i;
 
         _mat.color = blockColor;
@@ -73,7 +70,7 @@ public class RoomBar : MonoBehaviour
         }
     }
 
-    public void AddBlocks(bool[] blocks)
+    public void AddBlocks(bool[] blocks, CharacterData characterData)
     {
         var eyeInBadCondition = manager.GetEyeRoom().GetScoreNegative();
 
@@ -86,9 +83,10 @@ public class RoomBar : MonoBehaviour
                  * otherwise we'll need to make some more.
                  */
                 if (_blockQueue.Count == 0)
-                    QueueUpNewBarBlocks(1);
+                    QueueUpNewBarBlocks(3);
 
                 var block = _blockQueue.Dequeue();
+                block.characterData = characterData;
 
                 //  Chance to be bad
                 if (-eyeInBadCondition > Random.Range(0.0f, 1.0f))
@@ -106,26 +104,23 @@ public class RoomBar : MonoBehaviour
         }
     }
 
-    public void RemoveBlock(BarBlock block)
+    public void RemoveBlock(BarBlock barBlock)
     {
         var count = room.GetWorkerCount();
+        var blockWasCleared = false;
+        var currentblock = barBlock;
 
         if (count > 0)
         {
-            block.gameObject.SetActive(false);
-            block.transform.localPosition = Vector3.zero;
-            manager.BlockCleared(room.RemoveWorker());
+            blockWasCleared = room.RemoveWorker();
 
             if (particlePrefab) 
                 SpawnParticleEmitter();
-
-            _blockQueue.Enqueue(block);
-        } 
-        else
-        {
-            block.FinishBlock(this);
-            manager.BlockCleared(false);
         }
+
+        manager.BlockCleared(currentblock, blockWasCleared);
+        currentblock.FinishBlock(this, blockWasCleared);
+        
     }
 
     public void PulseBlock()
