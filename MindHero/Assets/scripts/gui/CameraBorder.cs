@@ -5,32 +5,25 @@ public class CameraBorder : MonoBehaviour
 {
     public GUISkin guiSkin;
 
-    private Camera _camera;
-    private Rect _rect;
-
     void Awake()
     {
         XmlHandler.locale = XmlHandler.Locale.EnGB;
-    }
-
-    private void Start()
-    {
-        _camera = camera;
-
-        var pixelRect = _camera.pixelRect;
-
-        _rect = new Rect(
-            pixelRect.x,
-            (Screen.height - (pixelRect.yMax)),
-            _camera.pixelWidth,
-            _camera.pixelHeight);
     }
 
     private void OnGUI()
     {
         GUI.skin = guiSkin;
         GUI.depth = 1;
+        var cameras = Camera.allCameras;
 
-        GUI.Box(_rect, "");
+        for (var i = 0; i < cameras.Length; i++)
+        {
+            var pixelRect = cameras[i].pixelRect;
+            GUI.Box( new Rect(
+                         pixelRect.x,
+                         ( Screen.height - ( pixelRect.yMax ) ),
+                         cameras[i].pixelWidth,
+                         cameras[i].pixelHeight), "");
+        }
     }
 }
