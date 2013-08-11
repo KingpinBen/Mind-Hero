@@ -20,7 +20,7 @@ public class BankRoom : Room
     private WildcardRoom _noseRoom;
 
     private Matrix4x4 _guiMatrix;
-    private Rect _guiRect;
+    private readonly Rect _guiRect = new Rect(0, 0, 120, 50);
 
 	protected override void Start ()
 	{
@@ -132,10 +132,9 @@ public class BankRoom : Room
 
     void UpdateGUI()
     {
-        _guiRect = new Rect(0, 0, 120, 50);
-        var offset = new Vector3(_camera.pixelRect.x * 1.02f,
-                                (_camera.pixelRect.y + _camera.pixelHeight) * .955f, 0f);
-        var scale = Screen.height * .001f;
+        var offset = new Vector3(_camera.pixelRect.x + 5,
+                                (_camera.pixelRect.y + _camera.pixelHeight)* .95f, 0f);
+        var scale = (Screen.height < Screen.width) ? Screen.height * 0.001f : Screen.width * 0.001f;
 
         _guiMatrix = Matrix4x4.TRS(offset, Quaternion.identity,
                                    new Vector3(scale, scale, 1.0f));
